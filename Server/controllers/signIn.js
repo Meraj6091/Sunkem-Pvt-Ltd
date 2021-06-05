@@ -10,13 +10,13 @@ exports.signinUser = async (req,res) => {
   try{
     const user = await User.findOne({email});
 
-    if(!User){
-        return res.status(401).json({sucess:flase , error:"User not Found, try again"})
+    if(!user){
+        return res.status(401).json({sucess:false , error:"User not Found, try again"})
     }
 
     const isMatch = user.compairPassword(password);
     if(!isMatch){
-        return res.statues(401).json({sucess:false, error:'Email/Password do not match'});
+        return res.status(401).json({sucess:false, error:'Email/Password do not match'});
 
     }
     const token =signToken(user._id);
@@ -28,7 +28,7 @@ exports.signinUser = async (req,res) => {
     res.json({sucess:true, user:{firstname,lastname,email,role}})
  }
     catch(error){
-            res.statues(500).json({sucesss:false , error:'error occor'})
+            res.status(500).json({sucesss:false , error:'error occor'})
     }
 
 };
